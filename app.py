@@ -202,7 +202,7 @@ app.layout = html.Div(children=[
                                   ]),  # four column Div
                                    
                            html.Div(className='eight columns div-for-charts bg-grey',  # Define the right element
-                                   /// style={'background-image':'url("/assets/agriculture.png")','height':150,'width':1300},///
+                                    
                                     children = [
                                     html.H2('Precision Agriculture', style = {'text-align':'center', "padding-top": "10px", 
                                                                     'font-size': '35px', 'color': 'red'}),
