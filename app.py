@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 18 17:01:33 2021
 
-@author: raghava
-"""
 import os
 import dash
 import pickle
@@ -133,7 +128,7 @@ app.layout = html.Div(children=[
                            children=[
                            html.Div(className='four columns div-user-controls',
                                     children = [
-                                        html.P('Crop recommendation application', style = {'font-size': '35px'}),
+                                        html.P('Crop Recommendation', style = {'font-size': '35px'}),
                                         html.H2('1. Precision agriculture is currently popular. It helps farmers to develop intelligent agricultural strategies.', style = {'font-size': '20px'}),
                                         html.H2('2. Based on seven characteristics, this application will recommend the ideal crop for farmers to grow on their fileds.', style = {'font-size': '20px'}),
                                         html.Br(),
