@@ -57,7 +57,59 @@ def get_image(img_path):
     img_src = 'data:image/png;base64,{}'.format(encoded_image.decode())
     return img_src
 
+def table_fig(data_df):
+        drop_table = go.Figure(
+                data=[go.Table(
+                header=dict(values=list(data_df.columns),
+                            fill_color='paleturquoise',
+                            align='left'),
+                cells=dict(values=[data_df.N, data_df.P, data_df.K, data_df.temperature, 
+                                   data_df.humidity, data_df.ph, data_df.rainfall, data_df.label],
+                           fill_color='lavender',
+                           align='left'))
+                    ])
+        drop_table.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+                                  'paper_bgcolor': 'rgba(0, 0, 0, 0)'
+                                })
+        return drop_table
 
+def build_fig(df):
+    layout = go.Layout(
+        margin={'l': 33, 'r': 40, 't': 20, 'b': 10},
+        )
+    fig = go.Figure(
+        go.Parcats(
+            dimensions=[
+                {'label': 'Nitrogen',
+                 'values': list(df['Nitrogen'])},
+                {'label': 'Phosphorous',
+                 'values': list(df['Phosphorous'])},
+                {'label': 'Potassium',
+                 'values': list(df['Potassium'])},
+                {'label': 'Temperature',
+                 'values': list(df['Temp(°C)'])},
+                {'label': 'Humidity',
+                 'values': list(df['Humidity(%)'])},
+                {'label': 'PH',
+                 'values': list(df['PH'])},
+                {'label': 'Rainfall',
+                 'values': list(df['Rainfall(mm)'])},
+                {'label': 'Crop_name',
+                 'values': list(df['Crop_name'])},
+                    ],
+             labelfont={'size': 16, 'family': 'Times', 'color':'yellow'},
+             tickfont={'size': 16, 'family': 'Times', 'color':'yellow'},
+             hoveron = 'category',
+             hoverinfo = 'count+probability',
+             # line = go.parcats.Line(color='#00FA9A', shape= 'hspline'),
+             line={'color': df.Crop_id}
+                ),
+        layout=layout)
+    
+    fig.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+                        'paper_bgcolor': 'rgba(0, 0, 0, 0)'
+                     })
+    return fig
 
 
 # data_df = pd.read_csv(DATA_PATH)
@@ -65,7 +117,7 @@ def get_image(img_path):
 # vis_df = data_grouping(mod_df)
 
 # Initialise the app
-app = dash.Crop(__name__)
+app = dash.Dash(__name__)
 
 server = app.server
 
@@ -144,7 +196,7 @@ app.layout = html.Div(children=[
                                                               'text-align': 'center',
                                                               'color': 'white',
                                                             }
-                                                    )
+                                                    ),
                                         
                                   ]),  # four column Div
                                    
@@ -154,9 +206,38 @@ app.layout = html.Div(children=[
                                     html.H2('Precision Agriculture', style = {'text-align':'center', "padding-top": "10px", 
                                                                     'font-size': '35px', 'color': 'red'}),
                                      
-                                   
+                                    html.H2('Data visualization:', style = {"padding-top": "80px", 
+                                                                "padding-left": "0",'font-size': '25px'
+                                                                }),
                                     
-                                     className="six columns"),
+                                    html.Div([
+                                        dcc.Dropdown(
+                                                   id="drop_down",
+                                                   options=[
+                                                       {'label': 'Categorical graph', 'value': 'graph'},
+                                                       {'label': 'Data table', 'value': 'table'},
+                                                   ],
+                                                   style={'height':30, 'width':600},
+                                                   value='graph',
+                                                   clearable=False)
+                                            ]),
+                                    html.Br(),
+                                    html.Div([
+                                    dcc.Graph(id='data_visualization',
+                                              config={'displaylogo': False},
+                                              style={'height':550,'width':1200},
+                                              #animate=True,
+                                              #figure = build_fig(vis_df)
+                                              )
+                                            ]),
+                                    
+                                    html.Div([
+                                        html.Div([ 
+                                            html.H2('Prediction will be displayed here:', style = {"padding-top": "0px", 'font-size': '25px'}),
+                                            
+                                            html.Img(id = "prediction_image")
+                                            
+                                        ], className="six columns"),
                                         
                                         html.Div(id='crop_name', className="six columns"),
                                     ], className="row"),
