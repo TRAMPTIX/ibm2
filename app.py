@@ -117,7 +117,7 @@ def build_fig(df):
 # vis_df = data_grouping(mod_df)
 
 # Initialise the app
-app = dash.Crop(__name__)
+app = dash.Dash(__name__)
 
 server = app.server
 
@@ -196,10 +196,40 @@ app.layout = html.Div(children=[
                                                               'text-align': 'center',
                                                               'color': 'white',
                                                             }
-                                                    
+                                                    ),
                                         
                                   ]),  # four column Div
                                    
+                           html.Div(className='eight columns div-for-charts bg-grey',  # Define the right element
+                                    style={'background-image':'url("/assets/agriculture.png")','height':150,'width':1300},
+                                    children = [
+                                    html.H2('Precision Agriculture', style = {'text-align':'center', "padding-top": "10px", 
+                                                                    'font-size': '35px', 'color': 'red'}),
+                                     
+                                    html.H2('Data visualization:', style = {"padding-top": "80px", 
+                                                                "padding-left": "0",'font-size': '25px'
+                                                                }),
+                                    
+                                    html.Div([
+                                        dcc.Dropdown(
+                                                   id="drop_down",
+                                                   options=[
+                                                       {'label': 'Categorical graph', 'value': 'graph'},
+                                                       {'label': 'Data table', 'value': 'table'},
+                                                   ],
+                                                   style={'height':30, 'width':600},
+                                                   value='graph',
+                                                   clearable=False)
+                                            ]),
+                                    html.Br(),
+                                    html.Div([
+                                    dcc.Graph(id='data_visualization',
+                                              config={'displaylogo': False},
+                                              style={'height':550,'width':1200},
+                                              #animate=True,
+                                              #figure = build_fig(vis_df)
+                                              )
+                                            ]),
                                     
                                     html.Div([
                                         html.Div([ 
