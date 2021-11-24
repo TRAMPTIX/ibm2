@@ -196,7 +196,7 @@ app.layout = html.Div(children=[
                                                               'text-align': 'center',
                                                               'color': 'white',
                                                             }
-                                                    ),
+                                                    
                                         
                                   ]),  # four column Div
                                    
