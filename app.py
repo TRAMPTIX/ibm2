@@ -65,7 +65,7 @@ def get_image(img_path):
 # vis_df = data_grouping(mod_df)
 
 # Initialise the app
-app = dash.Dash(__name__)
+app = dash.Crop(__name__)
 
 server = app.server
 
@@ -154,31 +154,9 @@ app.layout = html.Div(children=[
                                     html.H2('Precision Agriculture', style = {'text-align':'center', "padding-top": "10px", 
                                                                     'font-size': '35px', 'color': 'red'}),
                                      
-                                    html.H2('Data visualization:', style = {"padding-top": "80px", 
-                                                                "padding-left": "0",'font-size': '25px'
-                                                                }),
+                                   
                                     
-                                    html.Div([
-                                        dcc.Dropdown(
-                                                   id="drop_down",
-                                                   options=[
-                                                       {'label': 'Categorical graph', 'value': 'graph'},
-                                                       {'label': 'Data table', 'value': 'table'},
-                                                   ],
-                                                   style={'height':30, 'width':600},
-                                                   value='graph',
-                                                   clearable=False)
-                                            ]),
-                                    html.Br(),
-                                    
-                                    
-                                    html.Div([
-                                        html.Div([ 
-                                            html.H2('Prediction will be displayed here:', style = {"padding-top": "0px", 'font-size': '25px'}),
-                                            
-                                            html.Img(id = "prediction_image")
-                                            
-                                        ], className="six columns"),
+                                     className="six columns"),
                                         
                                         html.Div(id='crop_name', className="six columns"),
                                     ], className="row"),
