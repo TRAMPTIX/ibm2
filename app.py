@@ -1,4 +1,3 @@
-
 import os
 import dash
 import pickle
@@ -118,7 +117,7 @@ def build_fig(df):
 # vis_df = data_grouping(mod_df)
 
 # Initialise the app
-app = dash.CROPS(__name__)
+app = dash.Dash(__name__)
 
 server = app.server
 
@@ -128,7 +127,7 @@ app.layout = html.Div(children=[
                            children=[
                            html.Div(className='four columns div-user-controls',
                                     children = [
-                                        html.P('Crop Recommendation', style = {'font-size': '35px'}),
+                                        html.P('Crop recommendation application', style = {'font-size': '35px'}),
                                         html.H2('1. Precision agriculture is currently popular. It helps farmers to develop intelligent agricultural strategies.', style = {'font-size': '20px'}),
                                         html.H2('2. Based on seven characteristics, this application will recommend the ideal crop for farmers to grow on their fileds.', style = {'font-size': '20px'}),
                                         html.Br(),
@@ -202,7 +201,7 @@ app.layout = html.Div(children=[
                                   ]),  # four column Div
                                    
                            html.Div(className='eight columns div-for-charts bg-grey',  # Define the right element
-                                    
+                                    style={'background-image':'url("/assets/agriculture.png")','height':150,'width':1300},
                                     children = [
                                     html.H2('Precision Agriculture', style = {'text-align':'center', "padding-top": "10px", 
                                                                     'font-size': '35px', 'color': 'red'}),
@@ -250,22 +249,7 @@ app.layout = html.Div(children=[
                     ]) # main Div
 
 
-
-
-@app.callback(Output("store_inputs", "data"),
-              [Input('N', 'value'),
-               Input("P", "value"),
-               Input("K", "value"),
-               Input("temp", "value"),
-               Input("hum", "value"),
-               Input("ph", "value"),
-               Input("rain", "value")])
-
-def store_inputs(N, P, K, temp, hum, ph, rain):
-    features_str = [N, P, K, temp, hum, ph, rain]
-    if len(features_str) == 7 and None not in features_str and '' not in features_str:
-        return {'N':N, 'P':P, 'K': K, 'temp':temp, 'hum':hum, 'ph':ph, 'rain':rain}
-    @app.callback(Output("data_visualization", "figure"),
+@app.callback(Output("data_visualization", "figure"),
               Input('drop_down', 'value'),
               )
 def dropdown_options(drop_value):
@@ -284,6 +268,20 @@ def dropdown_options(drop_value):
     
     else:
         dash.no_update
+
+@app.callback(Output("store_inputs", "data"),
+              [Input('N', 'value'),
+               Input("P", "value"),
+               Input("K", "value"),
+               Input("temp", "value"),
+               Input("hum", "value"),
+               Input("ph", "value"),
+               Input("rain", "value")])
+
+def store_inputs(N, P, K, temp, hum, ph, rain):
+    features_str = [N, P, K, temp, hum, ph, rain]
+    if len(features_str) == 7 and None not in features_str and '' not in features_str:
+        return {'N':N, 'P':P, 'K': K, 'temp':temp, 'hum':hum, 'ph':ph, 'rain':rain}
 
 @app.callback([Output("prediction_image", "src"),
                Output('crop_name', 'children')], 
@@ -342,4 +340,3 @@ def reset_inputs(click):
 # Run the app
 if __name__ == '__main__':
     app.run_server(debug=False)  
- 
