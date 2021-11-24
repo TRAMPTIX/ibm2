@@ -250,7 +250,22 @@ app.layout = html.Div(children=[
                     ]) # main Div
 
 
-@app.callback(Output("data_visualization", "figure"),
+
+
+@app.callback(Output("store_inputs", "data"),
+              [Input('N', 'value'),
+               Input("P", "value"),
+               Input("K", "value"),
+               Input("temp", "value"),
+               Input("hum", "value"),
+               Input("ph", "value"),
+               Input("rain", "value")])
+
+def store_inputs(N, P, K, temp, hum, ph, rain):
+    features_str = [N, P, K, temp, hum, ph, rain]
+    if len(features_str) == 7 and None not in features_str and '' not in features_str:
+        return {'N':N, 'P':P, 'K': K, 'temp':temp, 'hum':hum, 'ph':ph, 'rain':rain}
+    @app.callback(Output("data_visualization", "figure"),
               Input('drop_down', 'value'),
               )
 def dropdown_options(drop_value):
@@ -269,20 +284,6 @@ def dropdown_options(drop_value):
     
     else:
         dash.no_update
-
-@app.callback(Output("store_inputs", "data"),
-              [Input('N', 'value'),
-               Input("P", "value"),
-               Input("K", "value"),
-               Input("temp", "value"),
-               Input("hum", "value"),
-               Input("ph", "value"),
-               Input("rain", "value")])
-
-def store_inputs(N, P, K, temp, hum, ph, rain):
-    features_str = [N, P, K, temp, hum, ph, rain]
-    if len(features_str) == 7 and None not in features_str and '' not in features_str:
-        return {'N':N, 'P':P, 'K': K, 'temp':temp, 'hum':hum, 'ph':ph, 'rain':rain}
 
 @app.callback([Output("prediction_image", "src"),
                Output('crop_name', 'children')], 
