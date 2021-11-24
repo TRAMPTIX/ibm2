@@ -117,7 +117,7 @@ def build_fig(df):
 # vis_df = data_grouping(mod_df)
 
 # Initialise the app
-app = dash.Crops(__name__)
+app = dash.Dash(__name__)
 
 server = app.server
 
